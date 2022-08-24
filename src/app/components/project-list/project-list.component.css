@@ -1,0 +1,54 @@
+.mat-table {
+  /* border-collapse: separate; */
+  border-spacing: 25px;
+}
+mat-form-field {
+  display: block;
+  justify-content: center;
+  margin-left: 20%;
+  width: 40%;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+.index {
+  margin-left: 20px;
+}
+a {
+  text-decoration: none;
+}
+.sort_icon {
+  scale: 0.8;
+}
+.align {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.export {
+  margin-right: 100px;
+}
+.dashboard {
+  text-align: left;
+  margin-top: 10px;
+  color: blue;
+}
+.pageSize {
+  display: flex;
+  margin-right: 120px;
+}
+.sort {
+  display: flex;
+  margin-left: 100px;
+}
+.sort_icon {
+  scale: 0.8;
+}
+.input-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -1,0 +1,151 @@
+<h1 class="dashboard">Project Dashboard</h1>
+
+<div class="align">
+  <div [ngStyle]="{ width: '100%' }">
+    <mat-form-field>
+      <mat-label>Filter by : </mat-label>
+      <div class="input-container">
+        <input
+          matInput
+          placeholder="Search by project name or project status or manager name  "
+          [(ngModel)]="searchedValue"
+          (keyup)="valuechange()"
+        />
+        <button
+          mat-button
+          [ngStyle]="{
+            float: 'right',
+            'border-width': '0px',
+            'background-color': 'transparent'
+          }"
+        >
+          <mat-icon class="icon" (click)="searchProjects()">search</mat-icon>
+        </button>
+      </div>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field [ngStyle]="{ 'margin-right': '10rem' }">
+      <mat-label>Items per page</mat-label>
+      <mat-select [(value)]="pageSize">
+        <mat-option *ngFor="let size of pageSizeOptions" value="{{ size }}">{{
+          size
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="export">
+    <button mat-button [matMenuTriggerFor]="menu">Export</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="exportToExcel()">.xlx</button>
+      <button mat-menu-item (click)="exportToPdf()">.pdf</button>
+    </mat-menu>
+  </div>
+</div>
+
+<table
+  mat-table
+  [dataSource]="
+    projects
+      | paginate
+        : {
+            itemsPerPage: pageSize,
+            currentPage: pageNo,
+            totalItems: noOfItems
+          }
+  "
+  class="mat-elevation-z8"
+>
+  <!-- Project Id Column -->
+  <ng-container matColumnDef="projectId">
+    <th mat-header-cell *matHeaderCellDef>Project Id</th>
+    <td mat-cell *matCellDef="let project">{{ project.projectId }}</td>
+  </ng-container>
+  <br />
+  <!-- Project Name Column -->
+  <ng-container matColumnDef="projectName">
+    <th mat-header-cell *matHeaderCellDef>
+      Project Name
+      <mat-icon
+        class="sort_icon"
+        matTooltip="click to sort by ASC/DESC"
+        (click)="sortProjectName($event, 'projectName', sortOrder[0])"
+        >arrow_upward</mat-icon
+      >
+    </th>
+    <td mat-cell *matCellDef="let project">{{ project.projectName }}</td>
+  </ng-container>
+  <br />
+  <!-- Project Status Column -->
+  <ng-container matColumnDef="projectStatus">
+    <th mat-header-cell *matHeaderCellDef>Project Status</th>
+    <td mat-cell *matCellDef="let project">{{ project.projectStatus }}</td>
+  </ng-container>
+  <br />
+  <!-- Cost In Dollars Column -->
+  <ng-container matColumnDef="costInDollars">
+    <th mat-header-cell *matHeaderCellDef>
+      Cost In Dollars<mat-icon
+        class="sort_icon"
+        matTooltip="click to sort by ASC/DESC"
+        (click)="sortCost($event, 'costInDollars', sortOrder[1])"
+        >arrow_upward</mat-icon
+      >
+    </th>
+    <td mat-cell *matCellDef="let project">{{ project.costInDollars }}</td>
+  </ng-container>
+  <br />
+  <!-- Manager Name Column -->
+  <ng-container matColumnDef="managerName">
+    <th mat-header-cell *matHeaderCellDef>Manager Name</th>
+    <td mat-cell *matCellDef="let project">{{ project.managerName }}</td>
+  </ng-container>
+  <br />
+  <!-- Client Name Column -->
+  <ng-container matColumnDef="clientName">
+    <th mat-header-cell *matHeaderCellDef>Client Name</th>
+    <td mat-cell *matCellDef="let project">{{ project.clientName }}</td>
+  </ng-container>
+  <br />
+  <!-- No of Resources Column -->
+  <ng-container matColumnDef="noOfResources">
+    <th mat-header-cell *matHeaderCellDef>No of Resources</th>
+    <td mat-cell *matCellDef="let project">{{ project.noOfResources }}</td>
+  </ng-container>
+  <br />
+  <!-- Creation Date Column -->
+  <ng-container matColumnDef="creationDate">
+    <th mat-header-cell *matHeaderCellDef>
+      Creation Date<mat-icon
+        class="sort_icon"
+        matTooltip="click to sort by ASC/DESC"
+        (click)="sortCreationDate($event, 'creationDate', sortOrder[2])"
+        >arrow_upward</mat-icon
+      >
+    </th>
+    <td mat-cell *matCellDef="let project">{{ project.creationDate }}</td>
+  </ng-container>
+  <br />
+  <!-- Estimated End Date Column -->
+  <ng-container matColumnDef="estimatedEndDate">
+    <th mat-header-cell *matHeaderCellDef>Estimated End Date</th>
+    <td mat-cell *matCellDef="let project">{{ project.estimatedEndDate }}</td>
+  </ng-container>
+  <br />
+  <!-- Duration In Months Column -->
+  <ng-container matColumnDef="durationInMonths">
+    <th mat-header-cell *matHeaderCellDef>Duration In Months</th>
+    <td mat-cell *matCellDef="let project">{{ project.durationInMonths }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<pagination-controls
+  [ngStyle]="{ 'text-align': 'center' }"
+  previousLabel="Prev"
+  nextLabel="Next"
+  (pageChange)="pageNo = $event"
+></pagination-controls>
